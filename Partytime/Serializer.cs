@@ -12,13 +12,21 @@ namespace Partytime
 
         public string Serialize(object data)
         {
+            dynamic stage = new ExpandoObject();
             if (data == null)
             {
-                dynamic nullData = new ExpandoObject();
-                nullData.data = null;
-                data = nullData;
-            }
 
+                stage.data = null;
+                data = stage;
+            }
+            else
+                stage.data = data;
+
+            return SerializeObject(stage);
+        }
+
+        private static string SerializeObject(object data)
+        {
             using (var output = new StringWriter())
             {
                 JSON.SerializeDynamic(data, output);

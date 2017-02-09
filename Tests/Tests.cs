@@ -22,7 +22,7 @@ namespace Tests
             Assert.Equal(JTokenType.Null, payload["data"].Type);
         }
 
-        [Fact(DisplayName = "Payload data")]
+        [Fact(DisplayName = "Payload contains data")]
         public void SerializeObject()
         {
             var simpleObject = new Simple();
