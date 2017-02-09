@@ -25,12 +25,29 @@ namespace Tests
         [Fact(DisplayName = "Payload contains data")]
         public void SerializeObject()
         {
-            var simpleObject = new Simple();
+            var data = new Simple();
 
-            var result = _serializer.Serialize(simpleObject);
+            var result = _serializer.Serialize(data);
             var payload = JObject.Parse(result);
 
             Assert.NotNull(payload["data"]);
+        }
+
+        [Fact(DisplayName = "Serializes attributes")]
+        public void SerializesAttributes()
+        {
+            var data = new Simple
+            {
+                IntProperty = 1,
+                StringProperty = "string"
+            };
+
+            var result = _serializer.Serialize(data);
+            var payload = JObject.Parse(result);
+            var attributes = payload["data"]["attributes"];
+
+            Assert.NotNull(attributes["IntProperty"]);
+            Assert.NotNull(attributes["StringProperty"]);
         }
     }
 }
