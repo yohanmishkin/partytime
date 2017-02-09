@@ -1,5 +1,5 @@
 ﻿using Jil;
-using System;
+using System.Dynamic;
 using System.IO;
 
 namespace Partytime
@@ -12,9 +12,16 @@ namespace Partytime
 
         public string Serialize(object data)
         {
+            if (data == null)
+            {
+                dynamic nullData = new ExpandoObject();
+                nullData.data = null;
+                data = nullData;
+            }
+
             using (var output = new StringWriter())
             {
-                JSON.Serialize(data, output);
+                JSON.SerializeDynamic(data, output);
                 return output.ToString();
             }
         }

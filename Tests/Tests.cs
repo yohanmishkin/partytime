@@ -1,19 +1,36 @@
-﻿using Partytime;
+﻿using Newtonsoft.Json.Linq;
+using Partytime;
 using Xunit;
 
 namespace Tests
 {
     public class Tests
     {
-        [Fact(DisplayName = "Serialize simple object")]
+        private Serializer _serializer;
+
+        public Tests()
+        {
+            _serializer = new Serializer();
+        }
+
+        [Fact(DisplayName = "Serializes null")]
+        public void SerializeNull()
+        {
+            var result = _serializer.Serialize(null);
+            var payload = JObject.Parse(result);
+
+            Assert.Equal(JTokenType.Null, payload["data"].Type);
+        }
+
+        [Fact(DisplayName = "Payload data")]
         public void SerializeObject()
         {
-            var serializer = new Serializer();
             var simpleObject = new Simple();
 
-            var json = serializer.Serialize(simpleObject);
+            var result = _serializer.Serialize(simpleObject);
+            var payload = JObject.Parse(result);
 
-            Assert.NotNull(json);
+            Assert.NotNull(payload["data"]);
         }
     }
 }
