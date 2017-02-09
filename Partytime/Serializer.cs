@@ -55,7 +55,7 @@ namespace Partytime
             {
                 foreach (var property in properties)
                 {
-                    var key = property.Name;
+                    var key = property.Name.Dasherize();
                     var value = property.GetValue(data, null);
                     if (value != null)
                         attributes[key] = value;

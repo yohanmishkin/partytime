@@ -46,8 +46,8 @@ namespace Tests
             var payload = JObject.Parse(result);
             var attributes = payload["data"]["attributes"];
 
-            Assert.NotNull(attributes["IntProperty"]);
-            Assert.NotNull(attributes["StringProperty"]);
+            Assert.Equal(data.IntProperty, attributes["int-property"].Value<int>());
+            Assert.Equal(data.StringProperty, attributes["string-property"].Value<string>());
         }
     }
 }
