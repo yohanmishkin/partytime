@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Partytime;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Tests
@@ -51,12 +53,7 @@ namespace Tests
             var data = new Ewok
             {
                 Age = 1,
-                Name = "Wicket",
-                Address = new Address
-                {
-                    Hut = 12,
-                    TreeVillage = "Central Village"
-                }
+                Name = "Wicket"
             };
 
             var result = _serializer.Serialize(data);
@@ -65,8 +62,22 @@ namespace Tests
 
             Assert.Equal(data.Age, attributes["age"].Value<int>());
             Assert.Equal(data.Name, attributes["name"].Value<string>());
-            Assert.Equal(data.Address.Hut, attributes["address"].Value<int>("hut"));
-            Assert.Equal(data.Address.TreeVillage, attributes["address"].Value<string>("tree-village"));
+        }
+
+        [Fact(DisplayName = "Serializes list")]
+        public void SerializesList()
+        {
+            var data = new List<Ewok>
+            {
+                new Ewok { Id = 1 },
+                new Ewok { Id = 2 },
+                new Ewok { Id = 3 },
+            };
+
+            var result = _serializer.Serialize(data);
+            var payload = JObject.Parse(result);
+
+            Assert.Equal(3, payload["data"].Count());
         }
     }
 }

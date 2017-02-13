@@ -3,6 +3,8 @@ using System.Dynamic;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 
 namespace Partytime
 {
@@ -28,7 +30,10 @@ namespace Partytime
             var typeName = data.GetType().Name;
 
             dynamic normalizedData = new ExpandoObject();
-            normalizedData = Normalize(data);
+            if (data is IEnumerable)
+                normalizedData = ((IEnumerable<dynamic>)data).Select(x => Normalize(x));
+            else
+                normalizedData = Normalize(data);
 
             return normalizedData;
         }
@@ -44,14 +49,14 @@ namespace Partytime
             return stage;
         }
 
-        private dynamic ExtractType(object data)
-        {
-            return data.GetType().Name.Dasherize(); // TODO: Purlarize?
-        }
-
         private dynamic ExtractId(object data)
         {
             return data.GetType().GetProperty("Id").GetValue(data, null);
+        }
+
+        private dynamic ExtractType(object data)
+        {
+            return data.GetType().Name.Dasherize(); // TODO: Purlarize?
         }
 
         private dynamic ExtractAttributes(object data)
