@@ -25,7 +25,7 @@ namespace Tests
         [Fact(DisplayName = "Payload contains data")]
         public void SerializeObject()
         {
-            var data = new Simple();
+            var data = new Ewok();
 
             var result = _serializer.Serialize(data);
             var payload = JObject.Parse(result);
@@ -33,21 +33,40 @@ namespace Tests
             Assert.NotNull(payload["data"]);
         }
 
+        [Fact(DisplayName = "Resource is serialized with id and type")]
+        public void ResourceHasIdAndType()
+        {
+            var data = new Ewok();
+
+            var result = _serializer.Serialize(data);
+            var payload = JObject.Parse(result);
+
+            Assert.NotNull(payload["data"]["id"]);
+            Assert.Equal("ewok", payload["data"]["type"].Value<string>());
+        }
+
         [Fact(DisplayName = "Serializes attributes")]
         public void SerializesAttributes()
         {
-            var data = new Simple
+            var data = new Ewok
             {
-                IntProperty = 1,
-                StringProperty = "string"
+                Age = 1,
+                Name = "Wicket",
+                Address = new Address
+                {
+                    Hut = 12,
+                    TreeVillage = "Central Village"
+                }
             };
 
             var result = _serializer.Serialize(data);
             var payload = JObject.Parse(result);
             var attributes = payload["data"]["attributes"];
 
-            Assert.Equal(data.IntProperty, attributes["int-property"].Value<int>());
-            Assert.Equal(data.StringProperty, attributes["string-property"].Value<string>());
+            Assert.Equal(data.Age, attributes["age"].Value<int>());
+            Assert.Equal(data.Name, attributes["name"].Value<string>());
+            Assert.Equal(data.Address.Hut, attributes["address"].Value<int>("hut"));
+            Assert.Equal(data.Address.TreeVillage, attributes["address"].Value<string>("tree-village"));
         }
     }
 }

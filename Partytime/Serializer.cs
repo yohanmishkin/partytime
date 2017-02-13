@@ -37,9 +37,21 @@ namespace Partytime
         {
             dynamic stage = new ExpandoObject();
 
+            stage.id = ExtractId(data);
+            stage.type = ExtractType(data);
             stage.attributes = ExtractAttributes(data);
 
             return stage;
+        }
+
+        private dynamic ExtractType(object data)
+        {
+            return data.GetType().Name.Dasherize(); // TODO: Purlarize?
+        }
+
+        private dynamic ExtractId(object data)
+        {
+            return data.GetType().GetProperty("Id").GetValue(data, null);
         }
 
         private dynamic ExtractAttributes(object data)
