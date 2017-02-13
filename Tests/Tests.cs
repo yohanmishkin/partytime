@@ -79,5 +79,26 @@ namespace Tests
 
             Assert.Equal(3, payload["data"].Count());
         }
+
+        [Fact(DisplayName = "Serializes relationships")]
+        public void SerializesRelationship()
+        {
+            var data = new Ewok
+            {
+                Id = 0,
+                Address = new Address
+                {
+                    Hut = 12,
+                    TreeVillage = "Endor"
+                }
+            };
+
+            var result = _serializer.Serialize(data);
+            var payload = JObject.Parse(result);
+            var relationships = payload["data"]["relationships"];
+
+            Assert.NotNull(relationships["address"]["data"]["id"]);
+            Assert.NotNull(relationships["address"]["data"]["type"]);
+        }
     }
 }

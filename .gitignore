@@ -240,3 +240,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/json-serializer.js
+/json-serializer-test.js
+/ember-data-serializer.js
+/ember-data-serializer-tests.js

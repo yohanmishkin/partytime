@@ -45,6 +45,7 @@ namespace Partytime
             stage.id = ExtractId(data);
             stage.type = ExtractType(data);
             stage.attributes = ExtractAttributes(data);
+            stage.relationships = ExtractRelationships(data);
 
             return stage;
         }
@@ -63,7 +64,10 @@ namespace Partytime
         {
             dynamic attributes = new Dictionary<string, object>();
 
-            var properties = data.GetType().GetProperties();
+            var properties = data.GetType()
+                .GetProperties()
+                .Where(x => x.PropertyType.IsPrimitive || x.PropertyType == typeof(string));
+
             if (properties != null)
             {
                 foreach (var property in properties)
@@ -76,6 +80,38 @@ namespace Partytime
             }
 
             return attributes;
+        }
+
+        private dynamic ExtractRelationships(object data)
+        {
+            dynamic relationships = new Dictionary<string, object>();
+            dynamic tempRelationships = new Dictionary<string, object>();
+
+            var properties = data.GetType()
+                .GetProperties()
+                .Where(x => !x.PropertyType.IsPrimitive && x.PropertyType != typeof(string));
+
+            if (properties != null)
+            {
+                foreach (var property in properties)
+                {
+                    var key = property.Name.Dasherize();
+                    var value = property.GetValue(data, null);
+                    if (value != null)
+                        tempRelationships[key] = value;
+                }
+            }
+
+            foreach (var relationship in tempRelationships)
+            {
+                dynamic relationshipData = new ExpandoObject();
+                relationshipData.id = 1;
+                string typeName = relationship.Value.GetType().Name.ToString();
+                relationshipData.type = typeName.Dasherize();
+                relationships[relationship.Key] = new Dictionary<string, object> { { "data", relationshipData } };
+            }
+
+            return relationships;
         }
 
         private static string SerializeObject(object data)
