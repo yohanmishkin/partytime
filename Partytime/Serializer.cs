@@ -14,17 +14,13 @@ namespace Partytime
 
         public string Serialize(object data)
         {
-            dynamic stage = new ExpandoObject();
-            if (data == null)
-            {
-                stage.data = null;
-                data = stage;
-                return SerializeObject(data);
-            }
-            else
-                stage.data = NormalizeResource(data);
+            dynamic documentHash = new ExpandoObject();
+            documentHash.data = null;
+            
+            if (data != null)
+                documentHash.data = NormalizeResource(data);
 
-            return SerializeObject(stage);
+            return SerializeObject(documentHash);
         }
 
         private dynamic NormalizeResource(object data)
