@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 
 namespace Partytime
 {
@@ -66,7 +67,7 @@ namespace Partytime
 
             var properties = data.GetType()
                 .GetProperties()
-                .Where(x => x.PropertyType.IsPrimitive || x.PropertyType == typeof(string));
+                .Where(x => x.PropertyType.GetTypeInfo().IsPrimitive || x.PropertyType == typeof(string));
 
             if (properties != null)
             {
@@ -89,7 +90,7 @@ namespace Partytime
 
             var properties = data.GetType()
                 .GetProperties()
-                .Where(x => !x.PropertyType.IsPrimitive && x.PropertyType != typeof(string));
+                .Where(x => !x.PropertyType.GetTypeInfo().IsPrimitive && x.PropertyType != typeof(string));
 
             if (properties != null)
             {
