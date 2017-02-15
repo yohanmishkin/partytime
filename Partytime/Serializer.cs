@@ -19,9 +19,12 @@ namespace Partytime
         {
             dynamic documentHash = new ExpandoObject();
             documentHash.data = null;
-            
+
             if (data != null)
+            {
                 documentHash.data = NormalizeResource(data);
+                documentHash.included = AddIncludes(data);
+            }
 
             return SerializeObject(documentHash);
         }
@@ -37,6 +40,14 @@ namespace Partytime
                 normalizedData = Normalize(data);
 
             return normalizedData;
+        }
+
+        private dynamic AddIncludes(object data)
+        {
+            // Get includes from query params
+            var includes = new ExpandoObject();
+            
+            return includes;
         }
 
         private dynamic Normalize(object data)
@@ -86,7 +97,6 @@ namespace Partytime
         private dynamic ExtractRelationships(object data)
         {
             dynamic relationships = new Dictionary<string, object>();
-            dynamic tempRelationships = new Dictionary<string, object>();
 
             var properties = data.GetType()
                 .GetProperties()
@@ -99,20 +109,42 @@ namespace Partytime
                     var key = property.Name.Dasherize();
                     var value = property.GetValue(data, null);
                     if (value != null)
-                        tempRelationships[key] = value;
+                        relationships[key] = value;
                 }
             }
 
-            foreach (var relationship in tempRelationships)
+            dynamic extractedData = new Dictionary<string, object>();
+            foreach (var relationshipItem in relationships)
             {
-                dynamic relationshipData = new ExpandoObject();
-                relationshipData.id = 1;
-                string typeName = relationship.Value.GetType().Name.ToString();
-                relationshipData.type = typeName.Dasherize();
-                relationships[relationship.Key] = new Dictionary<string, object> { { "data", relationshipData } };
+                var relationship = relationshipItem.Value;
+                if (relationship is IEnumerable)
+                {
+                    var datas = new List<Dictionary<string, object>>();
+                    foreach (var entry in relationship)
+                    {
+                        var type = entry.GetType();
+                        var id = type.GetProperty("Id").GetValue(entry, null);
+
+                        datas.Add(new Dictionary<string, object>
+                        {
+                            { "id", id },
+                            { "type", type.Name } // TODO: Dasherize()
+                        });
+                    }
+
+                    extractedData[relationshipItem.Key] = new Dictionary<string, object> { { "data", datas } };
+                }
+                else
+                {
+                    dynamic relationshipData = new ExpandoObject();
+                    relationshipData.id = 1;
+                    string typeName = relationship.GetType().Name.ToString();
+                    relationshipData.type = typeName.Dasherize();
+                    extractedData[relationshipItem.Key] = new Dictionary<string, object> { { "data", relationshipData } };
+                }
             }
 
-            return relationships;
+            return extractedData;
         }
 
         private static string SerializeObject(object data)

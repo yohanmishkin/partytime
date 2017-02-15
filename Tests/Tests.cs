@@ -100,5 +100,28 @@ namespace Tests
             Assert.NotNull(relationships["address"]["data"]["id"]);
             Assert.NotNull(relationships["address"]["data"]["type"]);
         }
+
+        [Fact(DisplayName = "Serializes one-to-many")]
+        public void SerializesOneToMany()
+        {
+            var wicket = new Ewok();
+            var teebo = new Ewok();
+            var village = new Village()
+            {
+                Ewoks = new List<Ewok> { wicket, teebo }
+            };
+
+            var result = _serializer.Serialize(village);
+            var payload = JObject.Parse(result);
+
+            var relationships = payload["data"]["relationships"];
+            Assert.Equal(2, relationships["ewoks"]["data"].Count());
+        }
+
+        [Fact(DisplayName = "Serializes includes from query params", Skip = "No query params yet")]
+        public void QueryParamIncludes()
+        {
+
+        }
     }
 }
