@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 
 namespace Partytime
 {
-    static class StringExtensions
+    public static class Helpers
     {
+        public static bool HasAttr(ExpandoObject expando, string key)
+        {
+            return ((IDictionary<string, object>)expando).ContainsKey(key);
+        }
+
         public static string Dasherize(this string source)
         {
             var parts = SplitAndLower(source);

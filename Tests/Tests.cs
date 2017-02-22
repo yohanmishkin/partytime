@@ -80,7 +80,7 @@ namespace Tests
             Assert.Equal(3, payload["data"].Count());
         }
 
-        [Fact(DisplayName = "Serializes relationships")]
+        [Fact(DisplayName = "Does not serialize relationships with objects lacking id properties")]
         public void SerializesRelationship()
         {
             var data = new Ewok
@@ -95,15 +95,12 @@ namespace Tests
 
             var result = _serializer.Serialize(data);
             var payload = JObject.Parse(result);
-            var relationships = payload["data"]["relationships"];
-
-            Assert.NotNull(relationships["address"]["data"]["id"]);
-            Assert.NotNull(relationships["address"]["data"]["type"]);
+            Assert.Empty(payload["data"]["relationships"]);
         }
 
         [Fact(DisplayName = "Serializes one-to-many")]
         public void SerializesOneToMany()
-        {
+        { 
             var wicket = new Ewok();
             var teebo = new Ewok();
             var village = new Village()
@@ -116,6 +113,10 @@ namespace Tests
 
             var relationships = payload["data"]["relationships"];
             Assert.Equal(2, relationships["ewoks"]["data"].Count());
+
+            var included = payload["included"];
+            Assert.NotEmpty(included);
+            Assert.Equal(2, included.Count());
         }
 
         [Fact(DisplayName = "Serializes includes from query params", Skip = "No query params yet")]

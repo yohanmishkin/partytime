@@ -6,9 +6,5 @@ namespace Tests
     {
         public int Id { get; set; }
         public List<Ewok> Ewoks { get; set; }
-
-        public Village()
-        {
-        }
     }
 }
