@@ -1,4 +1,4 @@
-# partyTime [![Build Status](https://travis-ci.org/yohanmishkin/partytime.svg?branch=master)](https://travis-ci.org/yohanmishkin/partytime)
+# partyTime [![Build status](https://ci.appveyor.com/api/projects/status/d3excs9s82x75vjs?svg=true)](https://ci.appveyor.com/project/yohanmishkin/partytime)
 
 ## Conventions
 - Resources must have an Id
