@@ -1,18 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Partytime", "Partytime\Partytime.xproj", "{0223AB39-3FCF-4B69-AEBF-7E8C4D730CFF}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests", "Tests\Tests.xproj", "{65EA3615-2EC8-4F45-9FD7-A018C8B5AE8F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6461DDB-B130-4780-B1FA-464269ABFB16}"
 	ProjectSection(SolutionItems) = preProject
 		.appveyor.yml = .appveyor.yml
 		.travis.yml = .travis.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Partytime", "Partytime\Partytime.csproj", "{0223AB39-3FCF-4B69-AEBF-7E8C4D730CFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{65EA3615-2EC8-4F45-9FD7-A018C8B5AE8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BF129BA-9957-4BDF-8F71-AC99A1BD70B2}
 	EndGlobalSection
 EndGlobal
