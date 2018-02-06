@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Partytime</AssemblyName>
     <PackageId>Partytime</PackageId>
     <NetStandardImplicitPackageVersion>2.0</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <RuntimeFrameworkVersion>2.0.3</RuntimeFrameworkVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
