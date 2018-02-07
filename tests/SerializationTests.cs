@@ -6,11 +6,11 @@ using Xunit;
 
 namespace Tests
 {
-    public class Tests
+    public class SerializationTests
     {
         private Serializer _serializer;
 
-        public Tests()
+        public SerializationTests()
         {
             _serializer = new Serializer();
         }
