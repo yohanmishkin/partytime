@@ -15,23 +15,27 @@ using Saule;
 
 namespace Benchmarks
 {
-    [MarkdownExporter]
     public class SerializerShowdown
     {
         [Benchmark]
         public string JsonApiDotNetCore() =>
+        
             _json_api_dotnet_serializer.Serialize(
                 new IdentifiableEwok { Age = 1, Name = "Wicket" }
             );
 
+        
         [Benchmark]
         public string Saule() =>
+        
             _saule.Serialize(
                 new Ewok { Age = 1, Name = "Wicket" }, new Uri("http://api.com/api/ewoks")
             ).ToString();
 
+        
         [Benchmark]
         public string Partytime() =>
+
             _partytime.Serialize(
                 new Ewok { Age = 1, Name = "Wicket" }
             );
@@ -39,7 +43,6 @@ namespace Benchmarks
         private readonly JsonApiSerializer _json_api_dotnet_serializer;
         private readonly JsonApiSerializer<EwokResource> _saule;
         private readonly Serializer _partytime;
-        private readonly Ewok TestData = new Ewok { Age = 1, Name = "Wicket" };
 
         public SerializerShowdown()
         {
@@ -56,7 +59,6 @@ namespace Benchmarks
             jsonApiOptions.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             jsonApiContextMock.Setup(m => m.Options).Returns(jsonApiOptions);
 
-
             var documentBuilder = new DocumentBuilder(jsonApiContextMock.Object);
 
             _json_api_dotnet_serializer = new JsonApiSerializer(jsonApiContextMock.Object, documentBuilder);
@@ -65,7 +67,7 @@ namespace Benchmarks
         }
     }
 
-    public class EwokResource : ApiResource
+    internal class EwokResource : ApiResource
     {
         public EwokResource()
         {
