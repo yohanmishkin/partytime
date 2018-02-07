@@ -9,6 +9,8 @@ Frequency=2742188 Hz, Resolution=364.6723 ns, Timer=TSC
 
 
 ```
-|            Method |      Mean |     Error |    StdDev | Median |
-|------------------ |----------:|----------:|----------:|-------:|
-| JsonApiDotNetCore | 0.7108 ns | 0.3283 ns | 0.9680 ns | 0.0 ns |
+|            Method |         Mean |      Error |      StdDev |       Median |
+|------------------ |-------------:|-----------:|------------:|-------------:|
+| JsonApiDotNetCore |     4.093 us |  0.2806 us |   0.7775 us |     3.774 us |
+|             Saule | 2,450.410 us | 77.3559 us | 207.8117 us | 2,361.890 us |
+|         Partytime |    16.626 us |  0.4527 us |   1.2392 us |    16.277 us |

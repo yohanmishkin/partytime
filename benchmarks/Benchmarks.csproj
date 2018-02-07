@@ -8,6 +8,12 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.10.12" />
     <PackageReference Include="jsonapidotnetcore" Version="2.1.11" />
+    <PackageReference Include="moq" Version="4.8.1" />
+    <PackageReference Include="saule" Version="1.6.0.373" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Partytime.csproj" />
   </ItemGroup>
 
 </Project>
